@@ -6,6 +6,7 @@ Solver::Solver() {}
 Solver::Solver(string plugin_path) {
 	set_plugin_path(plugin_path);
 	_set_basic_functionality();
+	set_additional_functionality();
 }
 Solver::Solver(vector<Token> tokenized_expression) {
 	generate_rpn(tokenized_expression);
