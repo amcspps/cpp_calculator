@@ -1,6 +1,8 @@
 #include "calc.hpp"
 
+
 using namespace std;
+
 
 Calculator::Calculator(string plugin_path) {
 	this->_parser = Parser();

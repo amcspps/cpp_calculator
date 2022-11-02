@@ -1,8 +1,11 @@
 #include <string>
 
+
 // first int - parsing_key, second int - precedence, string - field value
 using token = std::pair<std::pair<int, int>, std::string>;
 //LBR = left bracket, RBR = right bracket
+
+
 enum parsing_keys {
 	LBR = 1,
 	RBR = 2,

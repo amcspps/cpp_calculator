@@ -1,15 +1,16 @@
 #include "solver.hpp"
 #include <Windows.h>
+
+
 using namespace std;
 
+
 Solver::Solver() {}
+
 Solver::Solver(string plugin_path) {
 	set_plugin_path(plugin_path);
 	_set_basic_functionality();
-	set_additional_functionality();
-}
-Solver::Solver(vector<Token> tokenized_expression) {
-	generate_rpn(tokenized_expression);
+	_set_additional_functionality();
 }
 
 void Solver::clear_stacks() {
@@ -23,13 +24,13 @@ void Solver::clear_stacks() {
 		_output_rpn.pop_back();
 	}
 }
+
 void Solver::set_plugin_path(string _plugin_path) {
 	this->_plugin_path = _plugin_path;
 }
 
 void Solver::_get_func_from_dll(string filename) {
 	HMODULE hm = LoadLibraryA((_plugin_path + filename).c_str());
-
 	if (hm == nullptr) {
 		throw std::exception("dll not found");
 	}
@@ -41,7 +42,7 @@ void Solver::_get_func_from_dll(string filename) {
 	this->_unary_function_list.push_back({ import_func, func_name });
 }
 
-void Solver::set_additional_functionality() {
+void Solver::_set_additional_functionality() {
 	WIN32_FIND_DATAA wfd;
 	HANDLE const hFind = FindFirstFileA((this->_plugin_path + std::string("*.dll")).c_str(), &wfd);
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -51,8 +52,7 @@ void Solver::set_additional_functionality() {
 		} while (NULL != FindNextFileA(hFind, &wfd));
 		FindClose(hFind);
 	}
-	else
-	{
+	else {
 		throw std::exception("path not found");
 	}
 }
@@ -64,7 +64,7 @@ void Solver::_set_basic_functionality() {
 	this->_binary_function_list.push_back({ [](double fst, double snd) { return fst / snd; }, "/" });
 }
 
-BinFunction Solver::find_b_func(Token token) {
+BinFunction Solver::_find_b_func(Token token) {
 	string name = token.get_value();
 	for (auto it : _binary_function_list) {
 		if (it.get_name() == name) {
@@ -74,7 +74,7 @@ BinFunction Solver::find_b_func(Token token) {
 	throw std::exception("no function found");
 }
 
-UnFunction Solver::find_u_func(Token token) {
+UnFunction Solver::_find_u_func(Token token) {
 	string name = token.get_value();
 	for (auto it : _unary_function_list) {
 		if (it.get_name() == name) {
@@ -91,7 +91,7 @@ double Solver::generate_ans() {
 			_value_stack.push(stod(token.get_value()));
 		}
 		else if (token.is_function() && !_value_stack.empty()) {
-			u_f = find_u_func(token);
+			u_f = _find_u_func(token);
 			if (!_value_stack.empty()) {
 				u_f.set_argument(_value_stack.top());
 				_value_stack.pop();
@@ -99,7 +99,7 @@ double Solver::generate_ans() {
 			}
 		}
 		else if (token.is_operator() && !_value_stack.empty()) {
-			b_f = find_b_func(token);
+			b_f = _find_b_func(token);
 			double snd_arg = _value_stack.top();
 			_value_stack.pop();
 			if (!_value_stack.empty()) {

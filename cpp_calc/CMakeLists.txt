@@ -1,5 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 
+
 project ("cpp_calc")
 
 add_executable (cpp_calc "main.cpp" "calc.cpp"  "parser.cpp" "solver.cpp" "token.cpp" "function.cpp")

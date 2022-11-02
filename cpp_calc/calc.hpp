@@ -3,6 +3,7 @@
 #include "solver.hpp"
 #include "function.hpp"
 
+
 class Calculator {
 public:
 	Calculator(std::string plugin_path);
