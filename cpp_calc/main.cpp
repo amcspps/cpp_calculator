@@ -1,16 +1,23 @@
 ﻿#include <iostream>
-#include "parser.hpp"
-
-
+#include "calc.hpp"
 using namespace std;
 
 
 int main()
 {
-	string str = " sin( 3 )+cos(  4.5 )-2 * 3+1/5)";
-	Parser p = Parser();
+	string expression = "";
+	string plugin_path = "C:\\test";
+	Calculator calculator = Calculator(plugin_path);
+	while (true) {
+		getline(cin, expression);
+		calculator.calculate(expression);
+	}
+	//string str = "6+(sin(cos(3/2+6)))+1";
+	//Parser p = Parser();
+	//p.tokenize_expression(str);
+	//TODO try catch
+	//Solver s = Solver(p.get_tokenized_expression());
 	//p.parse_expression(str);
-	p.tokenize_expression(str);
-	p.print_tokenized_expression();
+	//p.print_tokenized_expression();
 	return 0;
 }

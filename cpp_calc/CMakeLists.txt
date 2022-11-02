@@ -2,7 +2,7 @@
 
 project ("cpp_calc")
 
-add_executable (cpp_calc "main.cpp" "calc.cpp"  "parser.cpp")
+add_executable (cpp_calc "main.cpp" "calc.cpp"  "parser.cpp" "solver.cpp" "token.cpp" "function.cpp")
 
 include_directories("cpp_calc")
 
@@ -18,6 +18,6 @@ find_package (Boost REQUIRED COMPONENTS program_options REQUIRED)
   
 if (Boost_FOUND)
     include_directories (SYSTEM ${Boost_INCLUDE_DIR})
-    add_executable (Boost_test "main.cpp")
+    add_executable (Boost_test "main.cpp" "solver.cpp" "token.cpp" "function.cpp")
     target_link_libraries (Boost_test ${Boost_LIBRARIES})
 endif ()
